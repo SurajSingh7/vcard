@@ -11,7 +11,6 @@ const VisitorCardSchema = new mongoose.Schema(
     visitorCardBack: { type: String },
     whatsapp: { type: Boolean, default: false },
     pin: { type: Boolean, default: false }
-
   },
   { timestamps: true }
 );

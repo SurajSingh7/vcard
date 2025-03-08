@@ -9,8 +9,10 @@ export async function POST(req) {
   await dbConnect();
  
   const { userName, password } = await req.json();
+  console.log('usrName', userName);
   
-  const user = await User.findOne({ userName });
+  const user = await User.findOne({ userName: userName });
+  console.log('user', user);
   if (!user) {
     return new Response(JSON.stringify({ error: 'User not found' }), { status: 404 });
   }

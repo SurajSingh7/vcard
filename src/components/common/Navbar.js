@@ -21,7 +21,7 @@ function Navbar() {
       >
         <div className="flex w-11/12  items-center justify-between mx-auto">
           {/* Logo */}
-          <Link href="/viewEmployee" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <Image
               src={logo}
               alt="Logo"
@@ -33,16 +33,16 @@ function Navbar() {
           </Link>
 
           <h1 className="text-white font-bold  text-lg sm:text-xl shadow-md px-2 rounded-lg">
-              Gigantic visitor Card
+               Visitor Card
           </h1>
 
           {/* Links and ProfileDropdown for Desktop */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="flex items-center gap-4">
             {token && <ProfileDropdown />}
           </div>
 
           {/* Hamburger menu for mobile */}
-          <button
+          {/* <button
             className="md:hidden text-white"
             onClick={toggleMenu}
             aria-label="Toggle Menu"
@@ -78,15 +78,15 @@ function Navbar() {
                 ></path>
               </svg>
             )}
-          </button>
+          </button> */}
         </div>
 
         {/* Dropdown Menu for Mobile */}
-        {isMenuOpen && (
+        {/* {isMenuOpen && (
           <div className="absolute   top-16 left-0 w-full bg-gray-800 shadow-lg p-4 md:hidden flex flex-col items-center gap-4">
             {token && <ProfileDropdown />}
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

@@ -20,7 +20,7 @@ export default function LoginComp() {
 
     // Redirect only from /login when token exists
     if (token && router.pathname === '/login') {
-      router.push('/viewEmployee');
+      router.push('/visitor-card');
     }
   }, [token, router]);
 
@@ -50,7 +50,7 @@ export default function LoginComp() {
 
       // Trigger login event and redirect
       localStorage.setItem('loginEvent', Date.now());
-      router.push('/viewEmployee');
+      router.push('/visitor-card');
     } catch (error) {
       toast.error(error.response?.data?.error || 'Invalid credentials');
     } finally {

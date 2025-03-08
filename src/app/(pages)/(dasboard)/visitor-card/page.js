@@ -33,7 +33,13 @@ const VisitorCardForm = () => {
 
   // Other form fields
   const [name, setName] = useState("")
-  const [sedulertime, setSedulertime] = useState("")
+  // const [sedulertime, setSedulertime] = useState("")
+  const [sedulertime, setSedulertime] = useState(() => {
+    const currentDate = new Date()
+    currentDate.setDate(currentDate.getDate() + 3)
+    return currentDate.toISOString().split("T")[0]
+  })
+  
   const [contactNumber, setContactNumber] = useState("")
   const [note, setNote] = useState("")
   const [assignTo, setAssignTo] = useState("")
@@ -336,12 +342,7 @@ const VisitorCardForm = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-xl rounded-xl border border-orange-100">
-      <Toaster />
-      <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-6 rounded-lg mb-8 shadow-md">
-        <h1 className="text-3xl font-bold text-center">Create Visitor Card</h1>
-        <p className="text-center text-orange-100 mt-2">Capture and manage visitor information</p>
-      </div>
-
+     
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Column 1: Live Capture Fields */}
         <div className="space-y-8">
@@ -357,7 +358,7 @@ const VisitorCardForm = () => {
             >
               <div className="flex items-center space-x-2">
                 <Camera size={18} />
-                <span>Card Front</span>
+                <span> Front</span>
               </div>
             </button>
             <button
@@ -371,7 +372,7 @@ const VisitorCardForm = () => {
             >
               <div className="flex items-center space-x-2">
                 <Camera size={18} />
-                <span>Card Back</span>
+                <span> Back</span>
               </div>
             </button>
           </div>
@@ -486,37 +487,6 @@ const VisitorCardForm = () => {
 
           <div className="bg-orange-50 p-5 rounded-lg border border-orange-100">
             <div className="flex items-center space-x-2 mb-2">
-              <Calendar className="text-orange-500" size={20} />
-              <label className="block font-medium text-gray-700">
-                Scheduler Date <span className="text-red-500">*</span>
-              </label>
-            </div>
-            <input
-              type="date"
-              value={sedulertime}
-              onChange={(e) => setSedulertime(e.target.value)}
-              className="block w-full border border-orange-200 rounded-md p-3 focus:ring-orange-500 focus:border-orange-500 bg-white"
-              required
-            />
-            <div className="bg-white mt-3 p-2 rounded-lg border border-orange-200 shadow-sm">
-              <div className="flex items-center justify-between flex-wrap gap-2">
-                <span className="text-gray-700 font-medium px-2">Quick select:</span>
-                {[3, 5, 7, 10, 15].map((days) => (
-                  <button
-                    key={days}
-                    type="button"
-                    onClick={() => handleDateOffset(days)}
-                    className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-3 py-1.5 rounded-md transition-colors"
-                  >
-                    {days} days
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-orange-50 p-5 rounded-lg border border-orange-100">
-            <div className="flex items-center space-x-2 mb-2">
               <Phone className="text-orange-500" size={20} />
               <label className="block font-medium text-gray-700">Contact Number</label>
             </div>
@@ -536,11 +506,44 @@ const VisitorCardForm = () => {
                 setContactNumber(val)
               }}
               maxLength={10}
-              placeholder="Enter 10-digit contact number (optional)"
+              placeholder="Enter 10-digit Number"
               className="block w-full border border-orange-200 rounded-md p-3 focus:ring-orange-500 focus:border-orange-500 bg-white"
             />
             {contactError && <p className="text-red-500 text-sm mt-1">{contactError}</p>}
           </div>
+
+          <div className="bg-orange-50 p-5 rounded-lg border border-orange-100">
+            <div className="flex items-center space-x-2 mb-2">
+              <Calendar className="text-orange-500" size={20} />
+              <label className="block font-medium text-gray-700">
+                Scheduler Date <span className="text-red-500">*</span>
+              </label>
+            </div>
+            <input
+              type="date"
+              value={sedulertime}
+              onChange={(e) => setSedulertime(e.target.value)}
+              className="block w-full border border-orange-200 rounded-md p-3 focus:ring-orange-500 focus:border-orange-500 bg-white"
+              required
+            />
+            <div className="bg-white mt-3 p-2 rounded-lg border border-orange-200 shadow-sm">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <span className="text-gray-700 font-medium px-2">Days:</span>
+                {[3, 5, 7, 10, 15].map((days) => (
+                  <button
+                    key={days}
+                    type="button"
+                    onClick={() => handleDateOffset(days)}
+                    className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-3 py-1.5 rounded-md transition-colors"
+                  >
+                    {days} 
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+         
 
           <div className="bg-orange-50 p-5 rounded-lg border border-orange-100">
             <div className="flex items-center space-x-2 mb-2">

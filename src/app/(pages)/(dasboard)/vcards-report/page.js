@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 
 export default function VisitorCardsPage() {
   const [visitorCards, setVisitorCards] = useState([])
@@ -42,30 +42,42 @@ export default function VisitorCardsPage() {
     setCurrentPage(1)
   }, [searchTerm, selectedFilter, showPinnedOnly])
 
-  // Filter by "Assigned To" if selected.
-  const filteredByFilter =
-    selectedFilter === "All" ? visitorCards : visitorCards.filter((card) => card.assignTo === selectedFilter)
+  // Memoize filtering and sorting to prevent recalculations on every render.
+  const filteredByFilter = useMemo(() => {
+    return selectedFilter === "All"
+      ? visitorCards
+      : visitorCards.filter((card) => card.assignTo === selectedFilter)
+  }, [visitorCards, selectedFilter])
 
-  // Further filter by search term (by name).
-  const filteredCards = filteredByFilter.filter((card) => card.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredCards = useMemo(() => {
+    return filteredByFilter.filter((card) =>
+      card.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  }, [filteredByFilter, searchTerm])
 
-  // Apply the pin filter if enabled.
-  const finalFilteredCards = showPinnedOnly ? filteredCards.filter((card) => card.pin) : filteredCards
+  const finalFilteredCards = useMemo(() => {
+    return showPinnedOnly ? filteredCards.filter((card) => card.pin) : filteredCards
+  }, [filteredCards, showPinnedOnly])
 
-  // Sort the cards by scheduled date if sort order is set.
-  const sortedCards = dateSortOrder
-    ? [...finalFilteredCards].sort((a, b) => {
+  const sortedCards = useMemo(() => {
+    if (dateSortOrder) {
+      return [...finalFilteredCards].sort((a, b) => {
         const dateA = new Date(a.sedulertime)
         const dateB = new Date(b.sedulertime)
         return dateSortOrder === "asc" ? dateA - dateB : dateB - dateA
       })
-    : finalFilteredCards
+    }
+    return finalFilteredCards
+  }, [finalFilteredCards, dateSortOrder])
 
-  // Pagination calculations.
+  // Calculate total pages.
   const totalPages = Math.ceil(sortedCards.length / cardsPerPage)
-  const indexOfLastCard = currentPage * cardsPerPage
-  const indexOfFirstCard = indexOfLastCard - cardsPerPage
-  const paginatedCards = sortedCards.slice(indexOfFirstCard, indexOfLastCard)
+
+  const paginatedCards = useMemo(() => {
+    const indexOfLastCard = currentPage * cardsPerPage
+    const indexOfFirstCard = indexOfLastCard - cardsPerPage
+    return sortedCards.slice(indexOfFirstCard, indexOfLastCard)
+  }, [sortedCards, currentPage])
 
   // Create unique filter buttons for "Assigned To".
   const assignToSet = new Set(visitorCards.map((card) => card.assignTo))
@@ -99,7 +111,11 @@ export default function VisitorCardsPage() {
   const handleTogglePin = async (id, currentPin) => {
     const newPin = !currentPin
     // Update state optimistically.
-    setVisitorCards((prevCards) => prevCards.map((card) => (card._id === id ? { ...card, pin: newPin } : card)))
+    setVisitorCards((prevCards) =>
+      prevCards.map((card) =>
+        card._id === id ? { ...card, pin: newPin } : card
+      )
+    )
     try {
       const response = await fetch("/api/visitorcards", {
         method: "PATCH",
@@ -110,12 +126,20 @@ export default function VisitorCardsPage() {
       })
       if (!response.ok) {
         // If update fails, revert change.
-        setVisitorCards((prevCards) => prevCards.map((card) => (card._id === id ? { ...card, pin: currentPin } : card)))
+        setVisitorCards((prevCards) =>
+          prevCards.map((card) =>
+            card._id === id ? { ...card, pin: currentPin } : card
+          )
+        )
         console.error("Failed to update pin")
       }
     } catch (error) {
       console.error("Error updating pin:", error)
-      setVisitorCards((prevCards) => prevCards.map((card) => (card._id === id ? { ...card, pin: currentPin } : card)))
+      setVisitorCards((prevCards) =>
+        prevCards.map((card) =>
+          card._id === id ? { ...card, pin: currentPin } : card
+        )
+      )
     }
   }
 
@@ -211,6 +235,7 @@ export default function VisitorCardsPage() {
                   <td className="py-2 px-4 border-b border-orange-100">
                     {card.visitorCardFront ? (
                       <img
+                        loading="lazy"
                         src={card.visitorCardFront || "/placeholder.svg"}
                         alt="Visitor Card Front"
                         className="h-16 w-auto cursor-pointer rounded border border-orange-200 hover:border-orange-400 transition-all"
@@ -223,6 +248,7 @@ export default function VisitorCardsPage() {
                   <td className="py-2 px-4 border-b border-orange-100">
                     {card.visitorCardBack ? (
                       <img
+                        loading="lazy"
                         src={card.visitorCardBack || "/placeholder.svg"}
                         alt="Visitor Card Back"
                         className="h-16 w-auto cursor-pointer rounded border border-orange-200 hover:border-orange-400 transition-all"
@@ -304,6 +330,7 @@ export default function VisitorCardsPage() {
                     <p className="text-xs text-orange-800 mb-1">Front</p>
                     {card.visitorCardFront ? (
                       <img
+                        loading="lazy"
                         src={card.visitorCardFront || "/placeholder.svg"}
                         alt="Visitor Card Front"
                         className="h-20 w-auto cursor-pointer rounded border border-orange-200"
@@ -319,6 +346,7 @@ export default function VisitorCardsPage() {
                     <p className="text-xs text-orange-800 mb-1">Back</p>
                     {card.visitorCardBack ? (
                       <img
+                        loading="lazy"
                         src={card.visitorCardBack || "/placeholder.svg"}
                         alt="Visitor Card Back"
                         className="h-20 w-auto cursor-pointer rounded border border-orange-200"
@@ -369,7 +397,7 @@ export default function VisitorCardsPage() {
           Previous
         </button>
         {totalPages <= 5 ? (
-          // Show all pages if 5 or fewer
+          /* Show all pages if 5 or fewer */
           Array.from({ length: totalPages }, (_, index) => (
             <button
               key={index + 1}
@@ -384,7 +412,7 @@ export default function VisitorCardsPage() {
             </button>
           ))
         ) : (
-          // Show limited pages with ellipsis for more than 5 pages
+          /* Show limited pages with ellipsis for more than 5 pages */
           <>
             {/* First page */}
             <button
@@ -397,7 +425,9 @@ export default function VisitorCardsPage() {
             </button>
 
             {/* Ellipsis or page before current */}
-            {currentPage > 3 && <span className="px-3 py-1.5 sm:px-4 sm:py-2 text-orange-800">...</span>}
+            {currentPage > 3 && (
+              <span className="px-3 py-1.5 sm:px-4 sm:py-2 text-orange-800">...</span>
+            )}
 
             {/* Page before current if not first or second page */}
             {currentPage > 2 && (
@@ -427,7 +457,9 @@ export default function VisitorCardsPage() {
             )}
 
             {/* Ellipsis or page after current */}
-            {currentPage < totalPages - 2 && <span className="px-3 py-1.5 sm:px-4 sm:py-2 text-orange-800">...</span>}
+            {currentPage < totalPages - 2 && (
+              <span className="px-3 py-1.5 sm:px-4 sm:py-2 text-orange-800">...</span>
+            )}
 
             {/* Last page */}
             <button
@@ -462,6 +494,7 @@ export default function VisitorCardsPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <img
+              loading="lazy"
               src={selectedImage || "/placeholder.svg"}
               alt="Enlarged Visitor Card"
               className="object-contain max-h-[80vh] max-w-full"
@@ -485,4 +518,3 @@ export default function VisitorCardsPage() {
     </div>
   )
 }
-

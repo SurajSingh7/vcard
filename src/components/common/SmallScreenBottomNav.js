@@ -1,6 +1,6 @@
 'use client'
 
-import { Eye, PlusCircle, GraduationCap, XCircle,UserPen ,UsersRound,BookUser} from 'lucide-react'
+import {UserPen ,UsersRound,BookUser} from 'lucide-react'
 import Link from "next/link"
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
@@ -13,7 +13,6 @@ export default function SmallScreenBottomNav() {
     { name: 'V Card', icon: UserPen, href: '/visitor-card' },
     { name: 'Report', icon: BookUser, href: '/vcards-report' },
     { name: 'Staff', icon: UsersRound, href: '/staff-details' },
-    // { name: 'xyz', icon: XCircle, href: '/xyz' },
   ]
 
   return (
