@@ -5,10 +5,10 @@ export function middleware(req) {
     const path = url.pathname;
     const token = req.cookies.get("token")?.value;
 
-    const isPublicPath = path === "/login" || path === "/signup" || path === "/";
+    const isPublicPath = path === "/";
 
     // Restricted paths that require authentication
-    const restrictedPaths = ["/shiftInitializer", "/viewEmployee", "/shiftName", "/employee-date-data", "/employeeCode"];
+    const restrictedPaths = ["/visitor-card", "/vcards-report", "/staff-details",];
 
     // Redirect unauthenticated users to the login page if they access restricted pages
     if (!token && restrictedPaths.includes(path)) {
@@ -28,11 +28,9 @@ export const config = {
     matcher: [
         "/", 
         "/login", 
-        "/signup", 
-        "/shiftInitializer", 
-        "/viewEmployee", 
-        "/employeeCode", 
-        "/shiftName", 
-        "/employee-date-data"
+        "/visitor-card",
+        "/vcards-report", 
+        "/staff-details"
     ],
 };
+

@@ -8,6 +8,7 @@ import toast from "react-hot-toast"
 import { Search, UserPlus, Edit, X, CheckCircle } from "lucide-react"
 
 export default function SignupPage() {
+  const admin=process.env.NEXT_PUBLIC_ADMIN;
   const dispatch = useDispatch()
   const loading = useSelector((state) => state.auth.loading)
 
@@ -34,7 +35,7 @@ export default function SignupPage() {
     const storedUser = localStorage.getItem("user")
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser)
-      setIsAdmin(parsedUser.userName === "admin")
+      setIsAdmin(parsedUser.userName === admin);
     }
     fetchUsers()
   }, [])
@@ -388,6 +389,18 @@ export default function SignupPage() {
     </div>
   )
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
