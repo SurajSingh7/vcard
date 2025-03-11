@@ -30,7 +30,6 @@ export default function Home() {
                   className="shadow-[10px_-5px_49px_-5px] shadow-[#70ca70] rounded-lg"
                   loading="lazy"
                 />
-                {/* suraj */}
               </Link>
 
               <Link href="/">

@@ -61,32 +61,29 @@ export default function LoginComp() {
   if (!isClient) return null;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-10 rounded-lg shadow-lg w-full max-w-md space-y-6"
-      >
-        <h1 className="text-3xl font-semibold text-center text-gray-800">Login</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-orange-100">
+      <form onSubmit={handleSubmit} className="bg-white p-10 rounded-lg shadow-lg w-full max-w-md space-y-6">
+        <h1 className="text-3xl font-semibold text-center text-orange-800">Login</h1>
         <div className="space-y-4">
           <div>
-            <label className="block text-gray-700 text-lg font-medium">Username</label>
+            <label className="block text-orange-700 text-lg font-medium">Username</label>
             <input
               type="text"
               name="userName"
               value={formData.userName}
               onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full p-3 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
               required
             />
           </div>
           <div>
-            <label className="block text-gray-700 text-lg font-medium">Password</label>
+            <label className="block text-orange-700 text-lg font-medium">Password</label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full p-3 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
               required
             />
           </div>
@@ -95,11 +92,12 @@ export default function LoginComp() {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full py-3 rounded-lg text-white bg-green-600 hover:bg-green-700 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-green-500 ${loading ? 'opacity-50' : ''}`}
+          className={`w-full py-3 rounded-lg text-white bg-orange-500 hover:bg-orange-600 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-orange-300 ${loading ? "opacity-50" : ""}`}
         >
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
+    
     </div>
   );
 }

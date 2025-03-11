@@ -193,7 +193,7 @@ export default function VisitorCardsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 bg-orange-50">
-      <h1 className="text-3xl font-bold mb-6 text-orange-800">Visitor Cards</h1>
+      <h1 className="text-2xl font-bold mb-6 text-orange-800">Visitor Cards</h1>
 
       {/* Search Bar & Pin Filter (Desktop) */}
       <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -613,6 +613,7 @@ export default function VisitorCardsPage() {
           <div className="text-orange-500 text-xl font-semibold">Loading...</div>
         </div>
       )}
+      <div className="h-24"></div>
     </div>
   );
 }

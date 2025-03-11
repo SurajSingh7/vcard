@@ -15,9 +15,9 @@ export default function RootLayout({ children }) {
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#00ff00" />
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" href="/icons/visitorCard-192.png" />
+        <meta name="theme-color" content="#ffffff" />
+        <link rel="manifest" href="/manifest.json"/>
+        <link rel="icon" href="/icons/icon-192.png" />
         <title>V Card</title>
       </head>
 
@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
           <AppInitializer />
           <Navbar />
           <main>{children}</main>
-          <Footer />
+          {/* <Footer /> */}
         </Provider>
       </body>
     </html>
