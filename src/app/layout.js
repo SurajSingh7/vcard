@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
           <GlobalEventListener />
           <Toaster />
           <AppInitializer />
-          <Navbar />
+          {/* <Navbar /> */}
           <main>{children}</main>
           {/* <Footer /> */}
         </Provider>

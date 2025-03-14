@@ -2,7 +2,8 @@ import dbConnect from "../../../lib/dbConnect";
 import VisitorCard from "../../../models/VisitorCard";
 import { promises as fs } from "fs";
 import path from "path";
-
+import { sendWhatsAppMessageStatic } from "../../../../src/lib/sendWhatsAppMessageStatic";
+ 
 // POST: Create a new visitor card
 export async function POST(request) {
   await dbConnect();
@@ -62,29 +63,36 @@ export async function POST(request) {
 
     // NEW CHANGE: Only call external API if a valid contact number is provided
     const contactNumber = formData.get("contactNumber");
-    if (contactNumber && contactNumber.toString().trim() !== "") {
-      // Build the API request body with updated destination and API key from .env
-      const apiBody = {
-        apiKey: process.env.API_KEY, // The API key from .env file
-        campaignName: "Convergence_F",
-        destination: contactNumber, // Use the contact number from the form
-        userName: "user",
-        templateParams: [],
-        media: {
-          url: "https://whatsapp-media-library.s3.ap-south-1.amazonaws.com/FILE/6600405a0dee457cf7835ca1/5841109_WibroBrochurecompressed.pdf",
-          filename: "Wibro Brochure"
-        }
-      };
+    const name = formData.get("name");
 
-      // Call the external API using fetch
-      const apiResponse = await fetch("https://backend.api-wa.co/campaign/go2market/api", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(apiBody)
-      });
-    }
+    // if (contactNumber && contactNumber.toString().trim() !== "") {
+    //   // Build the API request body with updated destination and API key from .env
+    //   const apiBody = {
+    //     apiKey: process.env.WHATSAPP_API_KEY, // The API key from .env file
+    //     campaignName: "Convergence_F",
+    //     destination: contactNumber, // Use the contact number from the form
+    //     userName: "user",
+    //     templateParams: [],
+    //     media: {
+    //       url: "https://whatsapp-media-library.s3.ap-south-1.amazonaws.com/FILE/6600405a0dee457cf7835ca1/5841109_WibroBrochurecompressed.pdf",
+    //       filename: "Wibro Brochure"
+    //     }
+    //   };
+
+    //   // Call the external API using fetch
+    //   const apiResponse = await fetch(process.env.WHATSAPP_API_URL, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json"
+    //     },
+    //     body: JSON.stringify(apiBody)
+    //   });
+    // }
+
+      // Send WhatsApp message asynchronously without delaying the response
+        setTimeout(() => {
+          sendWhatsAppMessageStatic(name, contactNumber);
+        }, 0);
 
     return new Response(
       JSON.stringify({

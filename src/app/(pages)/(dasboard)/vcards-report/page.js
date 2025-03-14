@@ -358,7 +358,8 @@ export default function VisitorCardsPage() {
                     {formatDate(card.sedulertime)}
                   </td>
                   <td className="py-2 px-4 border-b border-orange-100">
-                    {card.contactNumber}
+                     {/* {card.contactNumber} */}
+                    {card.contactNumber?card.contactNumber:card.qrmobile}
                   </td>
                   <td className="py-2 px-4 border-b border-orange-100">
                     {card.note}
@@ -475,7 +476,9 @@ export default function VisitorCardsPage() {
                   </div>
                   <div>
                     <p className="text-xs text-orange-500">Contact Number</p>
-                    <p>{card.contactNumber}</p>
+                    {/* <p>{card.contactNumber}</p> */}
+                    <p>{card.contactNumber?card.contactNumber:card.qrmobile}</p>
+                    
                   </div>
                   <div>
                     <p className="text-xs text-orange-500">Assigned To</p>

@@ -7,6 +7,7 @@ import ProfileDropdown from "./ProfileDropDown";
 import Image from "next/image";
 import logo from "../../../public/logo.png";
 
+
 function Navbar() {
   const { token } = useSelector((state) => state.auth);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle the menu in mobile view
