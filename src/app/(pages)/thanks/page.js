@@ -6,7 +6,7 @@ export default function Page() {
             Thank You!
           </h1>
           <p className="mt-4 text-center text-gray-800 ">
-            Thank you for submitting your details. Our team will get in touch with you soon to activate your OTT account.
+             Our team will get in touch with you soon to activate your OTT Apps.
           </p>
         </div>
       </div>
