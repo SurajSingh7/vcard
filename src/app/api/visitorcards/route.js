@@ -5,7 +5,7 @@ import path from "path";
 import { sendWhatsAppMessageDynamic } from "../../../../src/lib/sendWhatsAppMessageDynamic";
 import User from "../../../models/User";
  
-// POST: Create a new visitor card
+
 export async function POST(request) {
   await dbConnect();
   try {
@@ -16,16 +16,16 @@ export async function POST(request) {
     const visitorName = formData.get("name") || "default";
     const sanitizedVisitorName = visitorName.toString().replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
     // Create a unique folder name by appending a timestamp
-    const uniqueFolderName = `${sanitizedVisitorName}-${Date.now()}`;
+    // const uniqueFolderName = `${sanitizedVisitorName}-${Date.now()}`;
 
     // Get assignTo and sanitize it
     const assignTo = formData.get("assignTo") || "default";
     const assignToFolder = assignTo.toString().replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
 
-    // Define the dynamic upload directory: public/upload/<assignToFolder>/<uniqueFolderName>
-    const uploadDir = path.join(process.cwd(), "public", "upload", assignToFolder, uniqueFolderName);
-    // Create the directory if it doesn't exist; if it does, fs.mkdir with recursive:true will not recreate it
-    await fs.mkdir(uploadDir, { recursive: true });
+    // Define the dynamic upload directory: uploads/<assignToFolder>/<uniqueFolderName>
+    // This folder is outside the static build (unlike /public)
+    const uploadDir = path.join(process.cwd(), "uploads", assignToFolder,);
+    await fs.mkdir(uploadDir, { recursive: true }); // FIX: create directory if it doesn't exist
 
     // Process visitor card front image file
     let visitorCardFrontPath = "";
@@ -35,7 +35,8 @@ export async function POST(request) {
       const filename = `${Date.now()}-${frontFile.name}`;
       const filePath = path.join(uploadDir, filename);
       await fs.writeFile(filePath, fileBuffer);
-      visitorCardFrontPath = `/upload/${assignToFolder}/${uniqueFolderName}/${filename}`;
+      // Return URL using our custom API route (see below)
+      visitorCardFrontPath = `/api/uploads/${assignToFolder}/${filename}`; // FIX: updated URL
     }
 
     // Process visitor card back image file
@@ -46,10 +47,10 @@ export async function POST(request) {
       const filename = `${Date.now()}-${backFile.name}`;
       const filePath = path.join(uploadDir, filename);
       await fs.writeFile(filePath, fileBuffer);
-      visitorCardBackPath = `/upload/${assignToFolder}/${uniqueFolderName}/${filename}`;
+      visitorCardBackPath = `/api/uploads/${assignToFolder}/${filename}`; // FIX: updated URL
     }
 
-    // Build visitor card data (convert date string to Date object)
+    // Build visitor card data
     const visitorCardData = {
       name: formData.get("name"),
       sedulertime: new Date(formData.get("sedulertime")),
@@ -64,23 +65,22 @@ export async function POST(request) {
 
     // NEW CHANGE: Only call external API if a valid contact number is provided
     const contactNumber = formData.get("contactNumber");
-    const name = formData.get("name");
+    const nameField = formData.get("name");
 
-      
-     let dynamicNumber = "9695215220"; // default number
-      if (assignTo) {
-        const user = await User.findOne({ userName: assignTo });
-        if (user && user.mobile) {
-          dynamicNumber = user.mobile;
-        } else {
-          console.log(`User not found or no mobile for assignTo ${assignTo}, using default number.`);
-        }
+    let dynamicNumber = "9695215220"; // default number
+    if (assignTo) {
+      const user = await User.findOne({ userName: assignTo });
+      if (user && user.mobile) {
+        dynamicNumber = user.mobile;
+      } else {
+        console.log(`User not found or no mobile for assignTo ${assignTo}, using default number.`);
       }
+    }
 
-      // Send WhatsApp message asynchronously without delaying the response
-        setTimeout(() => {
-          sendWhatsAppMessageDynamic(name, contactNumber,dynamicNumber);
-        }, 0);
+    // Send WhatsApp message asynchronously without delaying the response
+    setTimeout(() => {
+      sendWhatsAppMessageDynamic(nameField, contactNumber, dynamicNumber);
+    }, 0);
 
     return new Response(
       JSON.stringify({
@@ -97,6 +97,7 @@ export async function POST(request) {
     );
   }
 }
+
 
 
 // GET: Fetch all visitor cards
