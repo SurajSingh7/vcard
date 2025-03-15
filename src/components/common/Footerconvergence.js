@@ -31,7 +31,7 @@ const Footer = () => {
                 </svg>
               </a>
             </div>
-            <div className="bg-[#061235] p-6 rounded-lg flex items-center space-x-4">
+            {/* <div className="bg-[#061235] p-6 rounded-lg flex items-center space-x-4">
               <div className="bg-blue-500 p-3 rounded-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@ const Footer = () => {
                 <p className="text-blue-400 text-sm">Sales Support</p>
                 <p className="text-xl font-bold">+91-8860606969</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -185,7 +185,7 @@ const Footer = () => {
                   </svg>
                   wecare@wibro.in
                 </a>
-                <a href="tel:+918860606969" className="text-gray-400 hover:text-white flex items-center">
+                {/* <a href="tel:+918860606969" className="text-gray-400 hover:text-white flex items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 mr-2"
@@ -201,7 +201,7 @@ const Footer = () => {
                     />
                   </svg>
                   +91-8860606969
-                </a>
+                </a> */}
               </div>
               <div className="flex space-x-6">
                 <a href="https://www.facebook.com/WibroSolutions" className="text-gray-400 hover:text-white">

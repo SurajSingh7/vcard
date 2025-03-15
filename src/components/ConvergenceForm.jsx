@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Image from "next/image"
 import Footer  from "./common/Footerconvergence"
 import WibroLogo from "../../public/wibroLogo.svg"
@@ -53,6 +53,7 @@ const Navbar = () => {
 const ConvergenceForm = () => {
   const searchParams = useSearchParams()
   const qrId = searchParams.get("qrId");
+  const router=useRouter();
 
   try {  
     // Any potential code here
@@ -128,6 +129,9 @@ const ConvergenceForm = () => {
         setMessage("Form submitted successfully!")
         // Reset form fields
         setFormData({ name: "", mobileNumber: "" })
+        // Redirect to /thanks page
+        router.push("/thanks");
+
       } else {
         setMessageType("error")
         setMessage("Error: " + data.message)

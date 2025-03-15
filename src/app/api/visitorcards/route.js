@@ -65,28 +65,16 @@ export async function POST(request) {
     const contactNumber = formData.get("contactNumber");
     const name = formData.get("name");
 
-    // if (contactNumber && contactNumber.toString().trim() !== "") {
-    //   // Build the API request body with updated destination and API key from .env
-    //   const apiBody = {
-    //     apiKey: process.env.WHATSAPP_API_KEY, // The API key from .env file
-    //     campaignName: "Convergence_F",
-    //     destination: contactNumber, // Use the contact number from the form
-    //     userName: "user",
-    //     templateParams: [],
-    //     media: {
-    //       url: "https://whatsapp-media-library.s3.ap-south-1.amazonaws.com/FILE/6600405a0dee457cf7835ca1/5841109_WibroBrochurecompressed.pdf",
-    //       filename: "Wibro Brochure"
-    //     }
-    //   };
-
-    //   // Call the external API using fetch
-    //   const apiResponse = await fetch(process.env.WHATSAPP_API_URL, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify(apiBody)
-    //   });
+   
+    //  let dynamicNumber = "919695215220"; // default number
+    // // If assignTo is provided, try fetching the user's mobile number from the users collection.
+    // if (assignTo) {
+    //   const user = await User.findOne({ userName: assignTo });
+    //   if (user && user.mobile) {
+    //     dynamicNumber = user.mobile;
+    //   } else {
+    //     console.log(`User not found or no mobile for assignTo ${assignTo}, using default number.`);
+    //   }
     // }
 
       // Send WhatsApp message asynchronously without delaying the response
