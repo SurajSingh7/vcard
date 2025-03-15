@@ -1,9 +1,9 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
-import QrImage from "../../../../components/QrImage";
+import QrImage from "../../../../components/QrImage"
 
 export default function VisitorCardsPage() {
-  const admin = process.env.NEXT_PUBLIC_ADMIN;
+  const admin=process.env.NEXT_PUBLIC_ADMIN;
   const [visitorCards, setVisitorCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,9 +17,6 @@ export default function VisitorCardsPage() {
 
   // 2) We only set selectedFilter AFTER we know if the user is admin or not
   const [selectedFilter, setSelectedFilter] = useState("");
-
-  // Cache buster: computed once per mount to force image refresh when updated
-  const cacheBuster = useMemo(() => Date.now(), []); // Added: Cache buster for image URLs
 
   // Read user from localStorage once the component mounts
   useEffect(() => {
@@ -151,9 +148,9 @@ export default function VisitorCardsPage() {
     });
   };
 
-  // Open modal for image with cache buster to force load new image
+  // Open modal for image
   const handleImageClick = (imageUrl) => {
-    setSelectedImage(`${imageUrl}?v=${cacheBuster}`); // Added: Append cacheBuster for modal image
+    setSelectedImage(imageUrl);
   };
 
   // Toggle pin
@@ -339,7 +336,7 @@ export default function VisitorCardsPage() {
                     {card.visitorCardFront ? (
                       <img
                         loading="lazy"
-                        src={`${card.visitorCardFront || "/placeholder.svg"}?v=${cacheBuster}`} // Modified: Append cache buster
+                        src={card.visitorCardFront || "/placeholder.svg"}
                         alt="Visitor Card Front"
                         className="h-16 w-auto cursor-pointer rounded border border-orange-200 hover:border-orange-400 transition-all"
                         onClick={() => handleImageClick(card.visitorCardFront)}
@@ -352,7 +349,7 @@ export default function VisitorCardsPage() {
                     {card.visitorCardBack ? (
                       <img
                         loading="lazy"
-                        src={`${card.visitorCardBack || "/placeholder.svg"}?v=${cacheBuster}`} // Modified: Append cache buster
+                        src={card.visitorCardBack || "/placeholder.svg"}
                         alt="Visitor Card Back"
                         className="h-16 w-auto cursor-pointer rounded border border-orange-200 hover:border-orange-400 transition-all"
                         onClick={() => handleImageClick(card.visitorCardBack)}
@@ -365,7 +362,8 @@ export default function VisitorCardsPage() {
                     {formatDate(card.sedulertime)}
                   </td>
                   <td className="py-2 px-4 border-b border-orange-100">
-                    {card.contactNumber ? card.contactNumber : card.qrmobile}
+                     {/* {card.contactNumber} */}
+                    {card.contactNumber?card.contactNumber:card.qrmobile}
                   </td>
                   <td className="py-2 px-4 border-b border-orange-100">
                     {card.note}
@@ -421,7 +419,9 @@ export default function VisitorCardsPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <span
-                    className={card.whatsapp ? "text-green-500" : "text-orange-500"}
+                    className={
+                      card.whatsapp ? "text-green-500" : "text-orange-500"
+                    }
                     title={card.whatsapp ? "Sent" : "Pending"}
                   >
                     {card.whatsapp ? "✅" : "⏰"}
@@ -445,7 +445,7 @@ export default function VisitorCardsPage() {
                     {card.visitorCardFront ? (
                       <img
                         loading="lazy"
-                        src={`${card.visitorCardFront || "/placeholder.svg"}?v=${cacheBuster}`} // Modified: Append cache buster
+                        src={card.visitorCardFront || "/placeholder.svg"}
                         alt="Visitor Card Front"
                         className="h-20 w-auto cursor-pointer rounded border border-orange-200"
                         onClick={() => handleImageClick(card.visitorCardFront)}
@@ -461,7 +461,7 @@ export default function VisitorCardsPage() {
                     {card.visitorCardBack ? (
                       <img
                         loading="lazy"
-                        src={`${card.visitorCardBack || "/placeholder.svg"}?v=${cacheBuster}`} // Modified: Append cache buster
+                        src={card.visitorCardBack || "/placeholder.svg"}
                         alt="Visitor Card Back"
                         className="h-20 w-auto cursor-pointer rounded border border-orange-200"
                         onClick={() => handleImageClick(card.visitorCardBack)}
@@ -480,7 +480,9 @@ export default function VisitorCardsPage() {
                   </div>
                   <div>
                     <p className="text-xs text-orange-500">Contact Number</p>
-                    <p>{card.contactNumber ? card.contactNumber : card.qrmobile}</p>
+                    {/* <p>{card.contactNumber}</p> */}
+                    <p>{card.contactNumber?card.contactNumber:card.qrmobile}</p>
+                    
                   </div>
                   <div>
                     <p className="text-xs text-orange-500">Assigned To</p>
