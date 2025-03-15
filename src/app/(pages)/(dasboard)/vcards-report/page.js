@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
+import QrImage from "../../../../components/QrImage"
 
 export default function VisitorCardsPage() {
   const admin=process.env.NEXT_PUBLIC_ADMIN;
@@ -206,10 +207,11 @@ export default function VisitorCardsPage() {
             className="w-full px-4 py-2 border border-orange-200 rounded focus:outline-none focus:ring-2 focus:ring-orange-300"
           />
         </div>
+        <div className="w-56"></div>
         {/* Desktop Pin Filter */}
         <button
           onClick={() => setShowPinnedOnly((prev) => !prev)}
-          className={`hidden md:inline-flex p-2 rounded-full transition-colors ${
+          className={`hidden md:inline-flex p-2 rounded-md transition-colors ${
             showPinnedOnly
               ? "bg-orange-500 text-white"
               : "bg-orange-200 text-orange-800"
@@ -219,8 +221,9 @@ export default function VisitorCardsPage() {
           }
           title={showPinnedOnly ? "Show all cards" : "Show pinned cards only"}
         >
-          <span className="text-xl">{showPinnedOnly ? "★" : "☆"}</span>
+          <span className="text-lg">{showPinnedOnly ? "Imp.★" : "Imp.☆"}</span>
         </button>
+        <div className="hidden md:inline-flex"><QrImage/></div>
       </div>
 
       {/* Mobile Sort & Pin Filter */}
@@ -232,7 +235,7 @@ export default function VisitorCardsPage() {
           <span>Sort by Date</span>
           <span>
             {dateSortOrder === null
-              ? "(Default)"
+              ? "(Def)"
               : dateSortOrder === "asc"
               ? "↑"
               : "↓"}
@@ -250,6 +253,7 @@ export default function VisitorCardsPage() {
             {showPinnedOnly ? "Imp.★" : "Imp.☆"}
           </span>
         </button>
+        <div> <QrImage/>  </div>
       </div>
 
       {/* Filter Buttons */}
