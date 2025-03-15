@@ -2,7 +2,8 @@ import dbConnect from "../../../lib/dbConnect";
 import VisitorCard from "../../../models/VisitorCard";
 import { promises as fs } from "fs";
 import path from "path";
-import { sendWhatsAppMessageStatic } from "../../../../src/lib/sendWhatsAppMessageStatic";
+import { sendWhatsAppMessageDynamic } from "../../../../src/lib/sendWhatsAppMessageDynamic";
+import User from "../../../models/User";
  
 // POST: Create a new visitor card
 export async function POST(request) {
@@ -65,21 +66,20 @@ export async function POST(request) {
     const contactNumber = formData.get("contactNumber");
     const name = formData.get("name");
 
-   
-    //  let dynamicNumber = "919695215220"; // default number
-    // // If assignTo is provided, try fetching the user's mobile number from the users collection.
-    // if (assignTo) {
-    //   const user = await User.findOne({ userName: assignTo });
-    //   if (user && user.mobile) {
-    //     dynamicNumber = user.mobile;
-    //   } else {
-    //     console.log(`User not found or no mobile for assignTo ${assignTo}, using default number.`);
-    //   }
-    // }
+      
+     let dynamicNumber = "9695215220"; // default number
+      if (assignTo) {
+        const user = await User.findOne({ userName: assignTo });
+        if (user && user.mobile) {
+          dynamicNumber = user.mobile;
+        } else {
+          console.log(`User not found or no mobile for assignTo ${assignTo}, using default number.`);
+        }
+      }
 
       // Send WhatsApp message asynchronously without delaying the response
         setTimeout(() => {
-          sendWhatsAppMessageStatic(name, contactNumber);
+          sendWhatsAppMessageDynamic(name, contactNumber,dynamicNumber);
         }, 0);
 
     return new Response(

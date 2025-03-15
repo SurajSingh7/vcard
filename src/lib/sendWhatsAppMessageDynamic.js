@@ -1,5 +1,5 @@
 // lib/sendWhatsAppMessage.js
-export const sendWhatsAppMessageStatic = async (name, mobileNumber,dynamicNumber) => {
+export const sendWhatsAppMessageDynamic = async (name, mobileNumber,dynamicNumber) => {
     try {
       if (!process.env.WHATSAPP_API_URL || !process.env.WHATSAPP_API_KEY) {
         console.error("WhatsApp API or API Key not found");
