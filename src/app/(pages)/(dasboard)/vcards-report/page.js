@@ -603,14 +603,14 @@ export default function VisitorCardsPage() {
                   {/* <td className="py-3 px-4 border-b border-orange-100 text-gray-700">{card.note}</td> */}
                   <td className="py-3 px-4 border-b border-orange-100 text-gray-700">
                       <span className="relative group">
-                        {card.note.length > 14 ? `${card.note.substring(0, 14)}...` : card.note}
-                        {card.note.length > 14 && (
+                        {card?.note?.length > 14 ? `${card?.note.substring(0, 14)}...` : card?.note}
+                        {card?.note?.length > 14 && (
                           <span className="text-blue-500 cursor-pointer"> more</span>
                         )}
 
                         {/* Tooltip Box on Hover */}
                         <div className="absolute left-0 bottom-full hidden group-hover:block w-64 bg-white text-gray-900 text-sm p-3 rounded-lg shadow-lg border border-gray-300 break-words whitespace-pre-line">
-                          {card.note}
+                          {card?.note}
                         </div>
                       </span>
                     </td>
