@@ -543,7 +543,7 @@ const VisitorCardForm = () => {
                 <Phone className="text-orange-500" size={16} />
               </div>
               <label className="block font-medium text-gray-700 dark:text-gray-300">
-                Contact Number
+                Contact Number <span className="text-red-500">*</span>
               </label>
             </div>
             <input
@@ -563,6 +563,7 @@ const VisitorCardForm = () => {
               maxLength={10}
               placeholder="Enter 10-digit Number"
               className="block w-full border border-orange-200 rounded-lg p-3 focus:ring-orange-500 focus:border-orange-500 bg-white shadow-sm dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200"
+              required
             />
             {contactError && (
               <p className="text-red-500 text-sm mt-1">{contactError}</p>
