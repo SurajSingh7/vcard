@@ -14,7 +14,7 @@ export default function LoginComp() {
   const { token } = useSelector((state) => state.auth);
 
   const [isClient, setIsClient] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
 
   const [formData, setFormData] = useState({
     userName: '',
