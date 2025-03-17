@@ -34,6 +34,7 @@ export default function ProfileDropdown() {
       localStorage.setItem('logoutEvent', Date.now()); // Using timestamp to make the value unique
 
       router.push('/')
+      window.location.reload();
   
 
     } catch (error) {
