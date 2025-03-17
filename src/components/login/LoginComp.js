@@ -14,6 +14,12 @@ export default function LoginComp() {
   const { token } = useSelector((state) => state.auth);
 
   const [isClient, setIsClient] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const [formData, setFormData] = useState({
+    userName: '',
+    password: '',
+  });
 
   useEffect(() => {
     setIsClient(true);
@@ -24,10 +30,18 @@ export default function LoginComp() {
     }
   }, [token, router]);
 
-  const [formData, setFormData] = useState({
-    userName: '',
-    password: '',
-  });
+  // On client mount, pre-fill form if Remember Me was checked previously
+  useEffect(() => {
+    if (isClient) {
+      const savedRemember = localStorage.getItem('rememberMe');
+      if (savedRemember === 'true') {
+        const savedUserName = localStorage.getItem('rememberedUserName') || '';
+        const savedPassword = localStorage.getItem('rememberedPassword') || '';
+        setFormData({ userName: savedUserName, password: savedPassword });
+        setRememberMe(true);
+      }
+    }
+  }, [isClient]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -45,6 +59,17 @@ export default function LoginComp() {
 
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
+
+      // If Remember Me is checked, save credentials; otherwise, clear them
+      if (rememberMe) {
+        localStorage.setItem('rememberMe', 'true');
+        localStorage.setItem('rememberedUserName', formData.userName);
+        localStorage.setItem('rememberedPassword', formData.password);
+      } else {
+        localStorage.setItem('rememberMe', 'false');
+        localStorage.removeItem('rememberedUserName');
+        localStorage.removeItem('rememberedPassword');
+      }
 
       toast.success('Login successful');
 
@@ -87,6 +112,17 @@ export default function LoginComp() {
               required
             />
           </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              name="rememberMe"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="mr-2"
+            />
+            <label htmlFor="rememberMe" className="text-orange-700">Remember Me</label>
+          </div>
         </div>
 
         <button
@@ -97,7 +133,14 @@ export default function LoginComp() {
           {loading ? "Logging in..." : "Login"}
         </button>
       </form>
-    
     </div>
   );
 }
+
+
+
+
+
+
+
+
