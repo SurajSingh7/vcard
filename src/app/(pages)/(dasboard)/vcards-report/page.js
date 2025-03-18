@@ -44,6 +44,8 @@ export default function VisitorCardsPage() {
   const [editName, setEditName] = useState("")
   const [editContactNumber, setEditContactNumber] = useState("")
   const [editQrMobile, setEditQrMobile] = useState("")
+  // Add editNote state
+  const [editNote, setEditNote] = useState("")
 
   // New state for validation errors
   const [contactError, setContactError] = useState("")
@@ -243,6 +245,7 @@ export default function VisitorCardsPage() {
   const handleEdit = (card) => {
     setEditingCard(card)
     setEditName(card.name)
+    setEditNote(card.note || "") // Initialize note
     setEditContactNumber(card.contactNumber)
     setEditQrMobile(card.qrmobile || "")
     setContactError("")
@@ -284,9 +287,16 @@ export default function VisitorCardsPage() {
         return
       }
     }
+    // const updatedFields = {
+    //   name: editName,
+    //   ...(editingCard.assignTo === "qrAdmin" ? { qrmobile: editQrMobile } : { contactNumber: editContactNumber }),
+    // }
     const updatedFields = {
       name: editName,
-      ...(editingCard.assignTo === "qrAdmin" ? { qrmobile: editQrMobile } : { contactNumber: editContactNumber }),
+      note: editNote, // Include note field
+      ...(editingCard.assignTo === "qrAdmin" 
+        ? { qrmobile: editQrMobile } 
+        : { contactNumber: editContactNumber }),
     }
     try {
       const response = await fetch("/api/visitorcards", {
@@ -946,9 +956,11 @@ export default function VisitorCardsPage() {
       <EditCardModal
         editingCard={editingCard}
         editName={editName}
+        editNote={editNote} // Add this prop
         editContactNumber={editContactNumber}
         editQrMobile={editQrMobile}
         onNameChange={(e) => setEditName(e.target.value)}
+        onNoteChange={(e) => setEditNote(e.target.value)} // Add this prop
         onContactChange={handleContactChange}
         onQrChange={handleQrChange}
         onCancel={() => setEditingCard(null)}

@@ -4,9 +4,11 @@ import React from "react";
 export default function EditCardModal({
   editingCard,
   editName,
+  editNote,        // new prop for note value
   editContactNumber,
   editQrMobile,
   onNameChange,
+  onNoteChange,    // new callback for note change
   onContactChange,
   onQrChange,
   onCancel,
@@ -34,6 +36,17 @@ export default function EditCardModal({
               type="text"
               value={editName}
               onChange={onNameChange}
+              className="w-full px-3 py-2 border border-orange-200 rounded"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-orange-800">
+              Note
+            </label>
+            <input
+              type="text"
+              value={editNote}
+              onChange={onNoteChange}
               className="w-full px-3 py-2 border border-orange-200 rounded"
             />
           </div>
@@ -89,3 +102,12 @@ export default function EditCardModal({
     </div>
   );
 }
+
+
+
+
+
+
+
+
+

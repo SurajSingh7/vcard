@@ -651,9 +651,9 @@ const VisitorCardForm = () => {
                   {dropdownOptions.map((option) => (
                     <option
                       key={option._id || option.userName}
-                      value={`${option.name} (${option.userName})`}
+                      value={`${option.userName}`}
                     >
-                      {option.name} ({option.userName})
+                      {option.userName}
                     </option>
                   ))}
                 </select>

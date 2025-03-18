@@ -323,7 +323,8 @@ export default function SignupPage() {
                     required
                   />
                 </div>
-                <div>
+
+                {/* <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">Username</label>
                   <input
                     type="text"
@@ -333,7 +334,26 @@ export default function SignupPage() {
                     className="w-full px-3 py-1.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 text-xs"
                     required
                   />
-                </div>
+                </div> */}
+
+                  <div>
+                   <label className="block text-xs font-medium text-gray-700 mb-1">Username</label>
+                      <input
+                        type="text"
+                        name="userName"
+                        value={formData.userName}
+                        onChange={handleChange}
+                        className={`w-full px-3 py-1.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 text-xs ${
+                          editingUser ? "bg-gray-100 cursor-not-allowed" : ""
+                        }`}
+                        required
+                        readOnly={!!editingUser}  // ← Add this line
+                      />
+                  </div>
+
+
+
+
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">Password</label>
                   <input
